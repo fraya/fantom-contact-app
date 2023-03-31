@@ -1,2 +1,2 @@
 # fantom-contact-app
-Contact App example using Hypermedia with Fantom Language
+Contact App example using [Hypermedia](https://hypermedia.systems/book/introduction/) with Fantom Language

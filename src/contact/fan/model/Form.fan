@@ -20,7 +20,7 @@ const class HtmlField
 const class HtmlForm
 {
   const Str:Str values
-  const HtmlField[] fields
+  const HtmlField[] fields := [,]
 
   new make(|This| f) { f(this) }
 

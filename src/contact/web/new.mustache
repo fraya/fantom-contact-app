@@ -24,7 +24,7 @@
     </p>
     <p>
         <label for="phone">Phone</label>
-        <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ phone }}" minlength="9" required/>
+        <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ phone }}" pattern="[0-9]{9}" required/>
         <span class="error">{{ errors/phone }}</span>
     </p>
     <button>Save</button>

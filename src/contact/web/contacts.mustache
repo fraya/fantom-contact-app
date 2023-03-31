@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title> Contacts.app </title>
+    </head>
+<body>
+<h1> Contacts.app </h1>
+<h2> A demo contact application </h2>
+</br>
+<form action="/contacts" method="get" class="tool-bar">
+    <label for="search">Search Term</label>
+    <input id="search" type="search" name="q" value="{{ q }}"/>
+    <input type="submit" value="Search"/>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>First</th>
+            <th>Last</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#contacts}}
+        <tr>
+            <td>{{ firstname }}</td>
+            <td>{{ lastname }}</td>
+            <td>{{ phone }}</td>
+            <td>{{ email }}</td>
+            <td>
+                <a href="/contacts/edit/{{ id }}">Edit</a>
+                <a href="/contacts/view/{{ id }}">View</a>
+            </td>
+        </tr>
+    {{/contacts}}
+    </tbody>
+</table>
+<p>
+    <a href="/contacts/new">Add Contact</a>
+</p>
+</body>
+</html>

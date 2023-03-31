@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title> Contacts.app - New contact </title>
+    </head>
+<body>
+<h1> Contact information </h1>
+<form action="/contacts/new" method="post">
+    <fieldset>
+    <legend>Contact Values</legend>
+    <p>
+        <label for="email">Email</label>
+        <input name="email" id="email" type="email" placeholder="Email" value="{{ email }}">
+        <span class="error">{{ errors/email }}</span>
+    </p>
+    <p>
+        <label for="firstname">First Name</label>
+        <input name="firstname" id="firstname" type="text" placeholder="First Name" value="{{ firstname }}">
+        <span class="error">{{ errors/firstname }}</span>
+    </p>
+    <p>
+        <label for="lastname">Last Name</label>
+        <input name="lastname" id="lastname" type="text" placeholder="Last Name" value="{{ lastname }}">
+        <span class="error">{{ errors/lastname }}</span>
+    </p>
+    <p>
+        <label for="phone">Phone</label>
+        <input name="phone" id="phone" type="text" placeholder="Phone" value="{{ phone }}">
+        <span class="error">{{ errors/phone }}</span>
+    </p>
+    <button>Save</button>
+    </fieldset>
+</form>
+<p>
+    <a href="/contacts">Back</a>
+</p>
+</html>

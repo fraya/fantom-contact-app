@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS contacts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT
+  , firstname TEXT NOT NULL
+  , lastname TEXT NOT NULL
+  , phone TEXT NOT NULL
+  , email TEXT NOT NULL
+)

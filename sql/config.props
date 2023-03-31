@@ -1,0 +1,16 @@
+//
+// Config: sql
+//
+// History:
+//   01 Feb 10  Brian Frank  Creation
+//
+
+// Java JDBC drivers; these are java classnames separated by a comma
+// which are loaded into the VM using Class.forName on startup
+java.drivers=org.sqlite.JDBC
+
+// test setup
+contact.uri=jdbc:sqlite:contact.sqlite3
+contact.username=
+contact.password=
+

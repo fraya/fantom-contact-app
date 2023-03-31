@@ -1,0 +1,33 @@
+using web
+
+const class ContactsWebPage : Media
+{
+  const [Str:Obj] params
+
+  new make([Str:Obj] params := [:])
+  {
+    this.params = params
+  }
+
+  override This write(Str name, Obj val)
+  {
+    ContactsWebPage(params.dup[name] = val)
+  }
+
+  Void writeOn(WebOutStream out)
+  {
+    out.docType
+    out.html
+    out.head
+      out.title.w("Contacts.app - New contact").titleEnd
+    out.headEnd
+    out.body
+      out.h1.w("Contact information").h1End
+      out.form("action='/contacts/new' method='post'")
+        out.label("for='email'").w("Email").labelEnd
+        out.input("name='firstname' id='firsname' type='text' placeholder='First Name' value=")
+      out.formEnd
+    out.bodyEnd
+    out.htmlEnd
+  }
+}

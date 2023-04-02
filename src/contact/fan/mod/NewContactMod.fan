@@ -23,6 +23,8 @@ const class NewContactMod : WebMod
       it.values = values
       HtmlField("firstname"),
       HtmlField("lastname"),
+      HtmlField("email"),
+      HtmlField("phone")
     }
   }
 

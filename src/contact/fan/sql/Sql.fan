@@ -1,66 +1,51 @@
 using sql
 
-const mixin Sql : Media
+class Sql : ParamMedia
 {
-  abstract Str sql()
-  abstract protected [Str:Obj] params()
+  private Str sql
 
-  protected Statement prepare(SqlConn connection)
+  new make(Str sql, Str:Obj data := [:])
+  : super.make(data)
   {
-    connection.sql(sql).prepare
+    this.sql = sql
+  }
+
+  new fromUri(Uri uri)
+  : this.make(uri.toFile.readAllStr)
+  {}
+
+  Statement prepare(SqlConn connection)
+  {
+     connection.sql(sql).prepare
   }
 
   Row[] query(SqlConn connection)
   {
-    prepare(connection).query(params)
+    prepare(connection).query(data)
   }
 
   Void queryEach(SqlConn connection, |Row| f)
   {
-    prepare(connection).queryEach(params, f)
+    prepare(connection).queryEach(data, f)
   }
 
   Obj execute(SqlConn connection)
   {
-    prepare(connection).execute(params)
-  }
-}
-
-const class StrSql : Sql
-{
-  override const Str sql
-  override protected const [Str:Obj] params
-
-  new make(Str sql, [Str:Obj] params := [:])
-  {
-    this.sql    = sql
-    this.params = params
+    prepare(connection).execute(data)
   }
 
-  override This write(Str name, Obj val)
+  Int[] insert(SqlConn connection)
   {
-    StrSql(sql, params.dup[name] = val)
-  }
-}
-
-const class UriSql : Sql
-{
-  const Uri uri
-  override protected const [Str:Obj] params
-
-  override Str sql()
-  {
-    uri.toFile.readAllStr
+    (Int[]) execute(connection)
   }
 
-  new make(Uri uri, [Str:Obj] params := [:])
+  Int update(SqlConn connection)
   {
-    this.uri    = uri
-    this.params = params
+    (Int) execute(connection)
   }
 
-  override This write(Str name, Obj val)
+  override Media printOn(Media media)
   {
-    UriSql(uri, params.dup[name] = val)
+    super.printOn(media.print("sql", sql))
   }
 }

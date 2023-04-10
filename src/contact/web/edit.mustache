@@ -1,25 +1,25 @@
 <html>
     <head>
-        <title> Contacts.app - New contact </title>
+        <title> Contacts.app - Edit contact </title>
     </head>
 <body>
 <h1> Contact information </h1>
-<form action="/contacts/new" method="post">
+<form action="/contacts/edit/{{ id }}" method="post">
     <fieldset>
     <legend>Contact Values</legend>
     <p>
         <label for="email">Email</label>
-        <input name="email" id="email" type="email" placeholder="Email" value="{{ email }}" required/>
+        <input name="email" id="email" type="email" placeholder="Email" value="{{ email }}" minlength="5" required/>
         <span class="error">{{ errors/email }}</span>
     </p>
     <p>
         <label for="firstname">First Name</label>
-        <input name="firstname" id="firstname" type="text" placeholder="First Name" value="{{ firstname }}" required/>
+        <input name="firstname" id="firstname" type="text" placeholder="First Name" value="{{ firstname }}" minlength="1" required/>
         <span class="error">{{ errors/firstname }}</span>
     </p>
     <p>
         <label for="lastname">Last Name</label>
-        <input name="lastname" id="lastname" type="text" placeholder="Last Name" value="{{ lastname }}" required/>
+        <input name="lastname" id="lastname" type="text" placeholder="Last Name" value="{{ lastname }}" minlength="1" required/>
         <span class="error">{{ errors/lastname }}</span>
     </p>
     <p>
@@ -30,7 +30,11 @@
     <button>Save</button>
     </fieldset>
 </form>
+<form action="/contacts/delete/{{ id }}" method="post">
+        <button>Delete Contact</button>
+</form>
 <p>
     <a href="/contacts">Back</a>
 </p>
+
 </html>

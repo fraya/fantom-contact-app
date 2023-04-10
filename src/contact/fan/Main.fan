@@ -15,9 +15,9 @@ class Main : AbstractMain
   @Arg { help = "File store" }
   File? sqlite
 
-  once ContactBook contacts()
+  once ContactRepo repo()
   {
-    ContactBookDatabase
+    ContactDbRepo
     {
       it.database = Sqlite(sqlite)
       it.sqls     = DefSqls(DefFiles(`fan://contact/res/sql/sqlite/`))
@@ -34,7 +34,7 @@ class Main : AbstractMain
   {
     ContactsMod
     {
-      it.contacts = this.contacts
+      it.repo     = this.repo
       it.template = this.mustaches[`contacts.mustache`]
     }
   }
@@ -43,7 +43,7 @@ class Main : AbstractMain
   {
     NewContactMod
     {
-      it.contacts = this.contacts
+      it.repo     = this.repo
       it.template = this.mustaches[`new.mustache`]
     }
   }
@@ -52,8 +52,25 @@ class Main : AbstractMain
   {
     UserContactMod
     {
-      it.contacts = this.contacts
+      it.repo     = this.repo
       it.template = this.mustaches[`show.mustache`]
+    }
+  }
+
+  once WebMod editContactMod()
+  {
+    EditContactMod
+    {
+      it.repo     = this.repo
+      it.template = this.mustaches[`edit.mustache`]
+    }
+  }
+
+  once WebMod deleteContactMod()
+  {
+    DeleteContactMod
+    {
+      it.repo = this.repo
     }
   }
 
@@ -82,7 +99,9 @@ class Main : AbstractMain
               routes = [
                 "index" : contactsMod,
                 "new"   : newContactMod,
-                "view"  : userContactMod
+                "view"  : userContactMod,
+                "edit"  : editContactMod,
+                "delete": deleteContactMod,
               ]
             },
           ]
@@ -102,13 +121,13 @@ class Main : AbstractMain
 
     if (log.isDebug)
     {
-      log.debug("Database: ${contacts}")
+      log.debug("Database: ${repo}")
       log.debug("Templates: ${mustaches}")
     }
 
     return runServices([
       wisp,
-      contacts,
+      repo,
     ])
   }
 }

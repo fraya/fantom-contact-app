@@ -13,6 +13,6 @@ const class DefSqls : Sqls
 
   override Sql sql(Uri sql)
   {
-    StrSql(files.file(sql).readAllStr)
+    Sql(files.file(sql).readAllStr)
   }
 }

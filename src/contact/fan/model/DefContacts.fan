@@ -1,19 +1,34 @@
-const class DefContacts : Contacts
+const class DefContacts : Contacts, Printable
 {
-  const Contact[] data
+  const private Contact[] data
 
-  new make(Contact[] vals := [,])
+  new make(Contact[] data := [,])
   {
-    data = vals
+    this.data = data
   }
 
-  override Void each(|Contact,Int| f)
+  override Contact? first()
   {
-    data.each(f)
+    data.first
   }
 
-  override Contact? byId(Int id)
+  override Void each(|Contact,Int| c)
   {
-    data.find |Contact c->Bool| { return c.id == id }
+    data.each(c)
+  }
+
+  override Media printOn(Media media)
+  {
+    media.print("contacts", data)
+  }
+
+  override Int size()
+  {
+    data.size
+  }
+
+  override Str toStr()
+  {
+    StrMedia().add(this).toStr
   }
 }

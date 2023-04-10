@@ -1,6 +1,6 @@
-const mixin Contacts
+const mixin Contacts : Printable
 {
-  abstract Contact? byId(Int id)
-
-  abstract Void each(|Contact,Int| f)
+  abstract Void each(|Contact,Int| c)
+  abstract Contact? first()
+  abstract Int size()
 }

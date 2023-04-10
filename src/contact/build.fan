@@ -33,11 +33,14 @@ class Build : build::BuildPod
 
     srcDirs = [
       `fan/`,
+      `fan/media/`,
       `fan/mod/`,
       `fan/model/`,
+      `fan/model/field/`,
       `fan/sql/`,
       `fan/services/`,
       `fan/sqlite/`,
+      `fan/view/`,
       `fan/util/`,
       `test/`,
     ]

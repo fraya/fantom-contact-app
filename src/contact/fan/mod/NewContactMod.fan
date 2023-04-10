@@ -4,7 +4,8 @@ using mustache
 
 const class NewContactMod : WebMod
 {
-  const ContactBook contacts
+  const static Log log := NewContactMod#.pod.log
+  const ContactRepo repo
   const Mustache template
 
   new make(|This| f) { f(this) }
@@ -16,37 +17,26 @@ const class NewContactMod : WebMod
     res.out.print(media)
   }
 
-  HtmlForm contactForm(Str:Str values)
+  Int? contact_id(WebReq req)
   {
-    HtmlForm
-    {
-      it.values = values
-      HtmlField("firstname"),
-      HtmlField("lastname"),
-      HtmlField("email"),
-      HtmlField("phone")
-    }
+    req.modRel.path.first?.toInt(10, false)
   }
 
   override Void onPost()
   {
-    form    := contactForm(req.form)
-    contact := ContactForm(req.form)
-    errors := form.validate
+    errors  := HtmlContactForm(req.form).validate
+    contact := DefContact.fromForm(req.form)
 
-    if (errors != null)
+    if (errors.isEmpty)
     {
-      data := ParameterMedia()
-        .writeObj(contact)
-        .content.addAll(errors)
-
-      res.headers["Content-Type"] = "text/html; charset=utf-8"
-      res.out.print(template.render(data))
+      id := repo.add(contact)
+      res.redirect(`/contacts`)
     }
     else
     {
-      id := contacts.add(contact)
-      res.redirect(`/contacts`)
+      media := MustacheMedia(template) { contact, errors }
+      res.headers["Content-Type"] = "text/html; charset=utf-8"
+      res.out.print(media)
     }
   }
 }

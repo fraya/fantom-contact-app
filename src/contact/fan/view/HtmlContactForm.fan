@@ -1,11 +1,11 @@
-class HtmlContactForm
+const class HtmlContactForm
 {
-  Str:Str form
+  const Str:Str form
 
-  HtmlFormField firstname := HtmlFormField("firstname") { maxSize = 50 }
-  HtmlFormField lastname  := HtmlFormField("lastname")
-  HtmlFormField phone     := HtmlFormField("phone") { minSize = 9; maxSize = 9 }
-  HtmlFormField email     := HtmlFormField("email") { minSize = 5 }
+  const HtmlFormField firstname := HtmlFormField("firstname") { maxSize = 50 }
+  const HtmlFormField lastname  := HtmlFormField("lastname")
+  const HtmlFormField phone     := HtmlFormField("phone") { minSize = 9; maxSize = 9 }
+  const HtmlFormField email     := HtmlFormField("email") { minSize = 5 }
 
   new make(Str:Str form) { this.form = form }
 

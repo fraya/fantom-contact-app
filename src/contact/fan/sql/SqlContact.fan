@@ -11,7 +11,7 @@ const class SqlContact : Contact
   // Object must be initialized in constructor because `Row` is not 'const'
   new make(Row row)
   {
-    id        = ContactId.fromStr(row->id->toInt)
+    id        = ContactId.make(row->id)
     firstname = row->firstname
     lastname  = row->lastname
     phone     = row->phone

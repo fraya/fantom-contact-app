@@ -13,10 +13,9 @@ const class ContactsMod : WebMod
 
   override Void onGet()
   {
-    query    := req.modRel.query.get("q", "")
-    contacts := repo.all
-    media    := MustacheMedia(template).add(contacts)
-    res.headers["Content-Type"] = "text/html; charset=utf-8"
-    res.out.print(media)
+    query := req.modRel.query.get("q", "")
+    MustachePage(template)
+      .add(repo.all)
+      .writeOn(res)
   }
 }

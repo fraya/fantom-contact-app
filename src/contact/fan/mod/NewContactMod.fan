@@ -12,9 +12,7 @@ const class NewContactMod : WebMod
 
   override Void onGet()
   {
-    media := MustacheMedia(template)
-    res.headers["Content-Type"] = "text/html; charset=utf-8"
-    res.out.print(media)
+    MustachePage(template).writeOn(res)
   }
 
   Int? contact_id(WebReq req)
@@ -34,9 +32,7 @@ const class NewContactMod : WebMod
     }
     else
     {
-      media := MustacheMedia(template) { contact, errors }
-      res.headers["Content-Type"] = "text/html; charset=utf-8"
-      res.out.print(media)
+      MustachePage(template) { contact, errors }.writeOn(res)
     }
   }
 }

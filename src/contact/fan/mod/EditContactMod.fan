@@ -24,9 +24,7 @@ const class EditContactMod : WebMod
     contact := repo.findContactById(ContactId(id))
     if (contact == null) return res.sendErr(404)
 
-    media := contact.printOn(MustacheMedia(template))
-    res.headers["Content-Type"] = "text/html; charset=utf-8"
-    res.out.print(media)
+    MustachePage(template) { contact, }.writeOn(res)
   }
 
   override Void onPost()
@@ -46,9 +44,7 @@ const class EditContactMod : WebMod
     }
     else
     {
-      media := MustacheMedia(template) { contact, errors }
-      res.headers["Content-Type"] = "text/html; charset=utf-8"
-      res.out.print(media)
+      MustachePage(template) { contact, errors }.writeOn(res)
     }
   }
 }

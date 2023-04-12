@@ -2,12 +2,9 @@ using web
 using webmod
 using mustache
 
-const class DeleteContactMod : WebMod
+const class DeleteContactMod : WebMod, RepoClient
 {
   const static Log log := DeleteContactMod#.pod.log
-  const ContactRepo repo
-
-  new make(|This| f) { f(this) }
 
   Int? contact_id(WebReq req)
   {

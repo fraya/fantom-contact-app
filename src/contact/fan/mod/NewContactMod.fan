@@ -2,22 +2,18 @@ using web
 using webmod
 using mustache
 
-const class NewContactMod : WebMod
+const class NewContactMod : WebMod, RepoClient
 {
   const static Log log := NewContactMod#.pod.log
-  const ContactRepo repo
-  const Mustache template
 
-  new make(|This| f) { f(this) }
+  HtmlPage view()
+  {
+    MustachePage(`new.mustache`)
+  }
 
   override Void onGet()
   {
-    MustachePage(template).writeOn(res)
-  }
-
-  Int? contact_id(WebReq req)
-  {
-    req.modRel.path.first?.toInt(10, false)
+    view.writeOn(res)
   }
 
   override Void onPost()
@@ -32,7 +28,10 @@ const class NewContactMod : WebMod
     }
     else
     {
-      MustachePage(template) { contact, errors }.writeOn(res)
+      view
+        .add(contact)
+        .add(errors)
+        .writeOn(res)
     }
   }
 }

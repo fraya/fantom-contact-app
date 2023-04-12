@@ -12,7 +12,7 @@ const mixin Files
   }
 }
 
-const class DefFiles : Files
+const class DefFiles : Files, Service
 {
   override const Uri? base
 

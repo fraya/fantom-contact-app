@@ -3,12 +3,12 @@ using web
 
 class MustachePage : HtmlPage
 {
-  Mustache template
+  Uri mustache
   Str:Obj data := [:]
 
-  new make(Mustache template)
+  new make(Uri mustache)
   {
-    this.template = template
+    this.mustache = mustache
   }
 
   override This print(Str name, Obj value)
@@ -25,6 +25,8 @@ class MustachePage : HtmlPage
 
   override Void writeOn(WebRes res)
   {
+    mustaches := (Mustaches) Service.find(Mustaches#)
+    template  := mustaches.template(mustache)
     res.headers["Content-Type"] = "text/html; charset=utf-8"
     res.out.print(template.render(data))
   }

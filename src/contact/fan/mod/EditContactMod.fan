@@ -2,18 +2,18 @@ using web
 using webmod
 using mustache
 
-const class EditContactMod : WebMod
+const class EditContactMod : WebMod, RepoClient
 {
   const static Log log := EditContactMod#.pod.log
-
-  const ContactRepo repo
-  const Mustache template
-
-  new make(|This| f) { f(this) }
 
   Int? contact_id(WebReq req)
   {
     req.modRel.path.first?.toInt(10, false)
+  }
+
+  HtmlPage view()
+  {
+    MustachePage(`edit.mustache`)
   }
 
   override Void onGet()
@@ -23,8 +23,7 @@ const class EditContactMod : WebMod
 
     contact := repo.findContactById(ContactId(id))
     if (contact == null) return res.sendErr(404)
-
-    MustachePage(template) { contact, }.writeOn(res)
+    view.add(contact).writeOn(res)
   }
 
   override Void onPost()
@@ -44,7 +43,10 @@ const class EditContactMod : WebMod
     }
     else
     {
-      MustachePage(template) { contact, errors }.writeOn(res)
+      view
+        .add(contact)
+        .add(errors)
+        .writeOn(res)
     }
   }
 }

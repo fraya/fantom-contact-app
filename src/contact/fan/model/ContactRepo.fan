@@ -27,3 +27,11 @@ const mixin ContactRepo
   **
   abstract Contacts all()
 }
+
+const mixin RepoClient
+{
+  ContactRepo repo()
+  {
+    (ContactRepo) Service.find(ContactRepo#)
+  }
+}

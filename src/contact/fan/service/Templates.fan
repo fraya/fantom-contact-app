@@ -2,18 +2,16 @@ using mustache
 
 const mixin Mustaches
 {
-  @Operator
-  abstract Mustache get(Uri uri)
+  abstract Mustache template(Uri uri)
 }
 
-const class FileMustaches : Mustaches
+const class FileMustaches : Mustaches, Service
 {
   const Files files
 
   new make(Files files) { this.files = files }
 
-  @Operator
-  override Mustache get(Uri uri)
+  override Mustache template(Uri uri)
   {
     Mustache(files.file(uri).in)
   }

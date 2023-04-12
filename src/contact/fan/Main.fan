@@ -24,55 +24,6 @@ class Main : AbstractMain
     }
   }
 
-  once Mustaches mustaches()
-  {
-    FileMustaches(
-      DefFiles(`fan://contact/web/`))
-  }
-
-  once WebMod contactsMod()
-  {
-    ContactsMod
-    {
-      it.repo     = this.repo
-    }
-  }
-
-  once WebMod newContactMod()
-  {
-    NewContactMod
-    {
-      it.repo     = this.repo
-      it.template = this.mustaches[`new.mustache`]
-    }
-  }
-
-  once WebMod userContactMod()
-  {
-    UserContactMod
-    {
-      it.repo     = this.repo
-      it.template = this.mustaches[`show.mustache`]
-    }
-  }
-
-  once WebMod editContactMod()
-  {
-    EditContactMod
-    {
-      it.repo     = this.repo
-      it.template = this.mustaches[`edit.mustache`]
-    }
-  }
-
-  once WebMod deleteContactMod()
-  {
-    DeleteContactMod
-    {
-      it.repo = this.repo
-    }
-  }
-
   override Int run()
   {
     if (debug)
@@ -96,11 +47,11 @@ class Main : AbstractMain
             "contacts" : RouteMod
             {
               routes = [
-                "index" : contactsMod,
-                "new"   : newContactMod,
-                "view"  : userContactMod,
-                "edit"  : editContactMod,
-                "delete": deleteContactMod,
+                "index" : ContactsMod(),
+                "new"   : NewContactMod(),
+                "view"  : UserContactMod(),
+                "edit"  : EditContactMod(),
+                "delete": DeleteContactMod(),
               ]
             },
           ]
@@ -121,11 +72,11 @@ class Main : AbstractMain
     if (log.isDebug)
     {
       log.debug("Database: ${repo}")
-      log.debug("Templates: ${mustaches}")
     }
 
     return runServices([
       wisp,
+      FileMustaches(DefFiles(`fan://contact/web/`)),
       repo,
     ])
   }

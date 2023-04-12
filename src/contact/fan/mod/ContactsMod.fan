@@ -2,19 +2,15 @@ using web
 using webmod
 using mustache
 
-const class ContactsMod : WebMod
+const class ContactsMod : WebMod, RepoClient
 {
   const static Log log := ContactsMod#.pod.log
 
-  const ContactRepo repo
-
-  new make(|This| f) { f(this) }
-
   override Void onGet()
   {
-    mustaches := FileMustaches(DefFiles(`fan://contact/web/`))
-    template  := mustaches[`contacts.mustache`]
-    MustachePage(template) { repo.all, }.writeOn(res)
+    MustachePage(`contacts.mustache`)
+      .add(repo.all)
+      .writeOn(res)
   }
 
   override Void onPost()
@@ -23,8 +19,8 @@ const class ContactsMod : WebMod
     contacts := (query.size > 0) ?
       repo.findContacts("%" + query + "%") : repo.all
 
-    mustaches := FileMustaches(DefFiles(`fan://contact/web/`))
-    template  := mustaches[`contacts-detail.mustache`]
-    MustachePage(template) { contacts, }.writeOn(res)
+    MustachePage(`contacts-detail.mustache`)
+      .add(contacts)
+      .writeOn(res)
   }
 }

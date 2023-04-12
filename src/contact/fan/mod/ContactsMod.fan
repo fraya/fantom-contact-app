@@ -7,15 +7,24 @@ const class ContactsMod : WebMod
   const static Log log := ContactsMod#.pod.log
 
   const ContactRepo repo
-  const Mustache template
 
   new make(|This| f) { f(this) }
 
   override Void onGet()
   {
-    query := req.modRel.query.get("q", "")
-    MustachePage(template)
-      .add(repo.all)
-      .writeOn(res)
+    mustaches := FileMustaches(DefFiles(`fan://contact/web/`))
+    template  := mustaches[`contacts.mustache`]
+    MustachePage(template) { repo.all, }.writeOn(res)
+  }
+
+  override Void onPost()
+  {
+    query := req.form.get("q", "").trim
+    contacts := (query.size > 0) ?
+      repo.findContacts("%" + query + "%") : repo.all
+
+    mustaches := FileMustaches(DefFiles(`fan://contact/web/`))
+    template  := mustaches[`contacts-detail.mustache`]
+    MustachePage(template) { contacts, }.writeOn(res)
   }
 }

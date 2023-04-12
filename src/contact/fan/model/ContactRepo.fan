@@ -10,6 +10,8 @@ const mixin ContactRepo
   **
   abstract Contact? findContactById(ContactId id)
 
+  abstract Contacts findContacts(Str query)
+
   **
   ** Updates a contact
   **

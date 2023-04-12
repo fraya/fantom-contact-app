@@ -2,6 +2,8 @@ using sql
 
 const class ContactDbRepo : ContactRepo, Service
 {
+  const static Log log := ContactDbRepo#.pod.log
+
   const Database database
   const Sqls sqls
 
@@ -37,6 +39,17 @@ const class ContactDbRepo : ContactRepo, Service
     sql := sqls.sql(`contact-delete.sql`)
       .add(id)
       .execute(database.connection)
+  }
+
+  override Contacts findContacts(Str query)
+  {
+    if (log.isDebug)
+      log.debug("sql:contact-by-query $query")
+
+    data := sqls.sql(`contacts-by-query.sql`)
+      .print("q", query)
+      .query(database.connection)
+    return DbContacts(data)
   }
 
   override Contacts all()

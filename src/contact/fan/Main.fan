@@ -35,7 +35,6 @@ class Main : AbstractMain
     ContactsMod
     {
       it.repo     = this.repo
-      it.template = this.mustaches[`contacts.mustache`]
     }
   }
 

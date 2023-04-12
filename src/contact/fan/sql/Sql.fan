@@ -2,6 +2,8 @@ using sql
 
 class Sql : ParamMedia
 {
+  const static Log log := Sql#.pod.log
+
   private Str sql
 
   new make(Str sql, Str:Obj data := [:])
@@ -16,7 +18,8 @@ class Sql : ParamMedia
 
   Statement prepare(SqlConn connection)
   {
-     connection.sql(sql).prepare
+     if (log.isDebug) log.debug("${sql}Params:${data}")
+     return connection.sql(sql).prepare
   }
 
   Row[] query(SqlConn connection)

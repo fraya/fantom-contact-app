@@ -1,8 +1,6 @@
-SELECT
-    id
-  , firstname
-  , lastname
-  , phone
-  , email
-FROM
-  contacts
+SELECT id,
+       firstname,
+       lastname,
+       phone,
+       email
+  FROM contacts

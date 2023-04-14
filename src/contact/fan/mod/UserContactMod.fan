@@ -13,7 +13,7 @@ const class UserContactMod : WebMod, RepoClient
     if (contact == null) return res.sendErr(404)
 
     MustachePage(`show.mustache`)
-      .add(contact)
+      .print(contact)
       .writeOn(res)
   }
 }

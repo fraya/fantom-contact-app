@@ -9,15 +9,10 @@ const mixin Contact : Printable
   override Media printOn(Media media)
   {
     media
-      .add(id)
-      .print("firstname", firstname)
-      .print("lastname", lastname)
-      .print("phone", phone)
-      .print("email", email)
-  }
-
-  override Str toStr()
-  {
-    StrMedia { this, }.toStr
+      .print(id)
+      .printAttr("firstname", firstname)
+      .printAttr("lastname", lastname)
+      .printAttr("phone", phone)
+      .printAttr("email", email)
   }
 }

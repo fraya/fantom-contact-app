@@ -1,10 +1,15 @@
 using web
 
-class ContactsWebPage : DefWebPage
+const class ContactsWebPage : DefWebPage
 {
-  new make(|This| f)
-  : super.make(f)
+  new make(Str:Obj params := [:])
+  : super.make(200, params)
   {}
+
+  override This printAttr(Str name, Obj val)
+  {
+    ContactsWebPage(params.dup[name] = val)
+  }
 
   override Void writeBody(WebRes res, WebOutStream out)
   {

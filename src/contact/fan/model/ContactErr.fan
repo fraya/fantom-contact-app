@@ -1,4 +1,4 @@
-const class ContactErr : Err, Media
+const class ContactErr : Err, Media, Printable
 {
   const Str:Obj data
 
@@ -8,7 +8,7 @@ const class ContactErr : Err, Media
     this.data = data
   }
 
-  override This print(Str name, Obj value)
+  override This printAttr(Str name, Obj value)
   {
     ContactErr(msg, data.dup[name] = value)
   }
@@ -17,7 +17,7 @@ const class ContactErr : Err, Media
   {
     data.each |v, k|
     {
-      media = media.print(k, v)
+      media = media.printAttr(k, v)
     }
 
     return media

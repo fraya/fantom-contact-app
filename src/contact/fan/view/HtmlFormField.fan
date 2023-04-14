@@ -1,39 +1,42 @@
-const class HtmlFormField
+const class FormField
 {
-  const static Log log := HtmlFormField#.pod.log
-
   const Str name
+  const Str? value
   const Int minSize := 1
   const Int maxSize := 100
 
-  new make(Str name, |This|? f := null)
+  new make(|This| f) { f(this) }
+
+  This withValue(Str:Str form)
   {
-    this.name  = name
-    if (f != null) f(this)
+    FormField
+    {
+      it.name    = this.name
+      it.value   = form.getChecked(this.name, false)
+      it.minSize = this.minSize
+      it.maxSize = this.maxSize
+    }
   }
 
-  Media? validate(Str:Str form)
+  Bool isEmpty() { value == null }
+
+  Bool isUndersize() { value.size < minSize }
+
+  Bool isOversize() { value.size > maxSize }
+
+  Bool hasErrors() { isEmpty || isUndersize || isOversize }
+
+  Media validateOn(Media media)
   {
-    value  := form.getChecked(name, false)
+    if (isEmpty)
+      return media.printAttr("errors/${name}", "Field is required")
 
-    if (value == null)
-    {
-      log.debug("Form field '${name}' not present")
-      return MediaErr().print(name, "This field is required")
-    }
+    if (isUndersize)
+      return media.printAttr("errors/${name}", "Minimum length is ${minSize}")
 
-    if (value.size < minSize)
-    {
-      log.debug("'${name}' size: ${value.size} expected >= ${minSize}")
-      return MediaErr().print(name, "Field minimum size of characters is ${minSize}")
-    }
+    if (isOversize)
+      return media.printAttr(name, "Maximum length is ${maxSize}")
 
-    if (value.size > maxSize)
-    {
-      log.debug("'${name}' size: ${value.size} expected <= ${maxSize}")
-      return MediaErr().print(name, "Field maximum size of characters is ${maxSize}")
-    }
-
-    return null
+    return media
   }
 }

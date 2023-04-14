@@ -1,12 +1,15 @@
 using web
 
-abstract class DefWebPage : HtmlPage
+const abstract class DefWebPage : HtmlPage
 {
-  Str title
-  Int statusCode := 200
-  Str:Obj params := [:]
+  const Int statusCode := 200
+  const Str:Obj params := [:]
 
-  new make(|This| f) { f(this) }
+  new make(Int statusCode, Str:Obj params := [:])
+  {
+    this.statusCode = statusCode
+    this.params = params
+  }
 
   override Void writeOn(WebRes res)
   {
@@ -15,7 +18,7 @@ abstract class DefWebPage : HtmlPage
     out := res.out
     out.html
     out.header
-    out.title.w(this.title).titleEnd
+    out.title.w(params.get("title", "Contacts")).titleEnd
     out.script(Str
     <|src="https://unpkg.com/htmx.org@1.7.0"
       integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo"
@@ -27,18 +30,6 @@ abstract class DefWebPage : HtmlPage
     writeBody(res, out)
     out.bodyEnd
     out.htmlEnd
-  }
-
-  override This print(Str name, Obj val)
-  {
-    params[name] = val
-    return this
-  }
-
-  override Media printOn(Media media)
-  {
-    params.each |val, name| { media = media.print(name, val) }
-    return media
   }
 
   abstract Void writeBody(WebRes res, WebOutStream out)

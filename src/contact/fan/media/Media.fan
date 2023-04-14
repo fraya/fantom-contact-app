@@ -3,14 +3,19 @@
 ** it contains without exposing its internal state.
 ** See https://www.yegor256.com/2016/04/05/printers-instead-of-getters.html
 **
-mixin Media : Printable
+const mixin Media
 {
-  abstract This print(Str name, Obj value)
+  **
+  ** Add an attribute to 'Media' returning a new
+  ** instance.
+  **
+  abstract This printAttr(Str name, Obj value)
 
-  @Operator
-  This add(Printable? printable)
+  **
+  ** 'Printable' objects print themselves on this 'Media'
+  **
+  This print(Printable printable)
   {
-    printable?.printOn(this)
-    return this
+    printable.printOn(this)
   }
 }

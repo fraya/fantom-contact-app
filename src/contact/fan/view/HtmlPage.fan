@@ -1,6 +1,6 @@
 using web
 
-mixin HtmlPage : Media
+const mixin HtmlPage : Media
 {
   abstract Void writeOn(WebRes res)
 }

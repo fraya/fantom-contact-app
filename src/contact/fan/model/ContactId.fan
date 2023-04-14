@@ -10,9 +10,9 @@ const class ContactId : Printable
   : this.make(s.toInt(10))
   {}
 
-  override Media printOn(Media m)
+  override Media printOn(Media media)
   {
-    m.print("id", id)
+    media.printAttr("id", id)
   }
 
   override Str toStr()

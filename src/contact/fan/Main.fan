@@ -19,7 +19,7 @@ class Main : AbstractMain
   {
     ContactDbRepo
     {
-      it.database = Sqlite(sqlite)
+      it.database = Sqlite.file(sqlite)
       it.sqls     = DefSqls(DefFiles(`fan://contact/res/sql/sqlite/`))
     }
   }

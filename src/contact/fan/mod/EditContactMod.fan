@@ -4,16 +4,11 @@ using mustache
 
 const class EditContactMod : WebMod, RepoClient
 {
-  const static Log log := EditContactMod#.pod.log
+  const static Uri template := `edit.mustache`
 
   Int? contact_id(WebReq req)
   {
     req.modRel.path.first?.toInt(10, false)
-  }
-
-  HtmlPage view()
-  {
-    MustachePage(`edit.mustache`)
   }
 
   override Void onGet()
@@ -23,7 +18,8 @@ const class EditContactMod : WebMod, RepoClient
 
     contact := repo.findContactById(ContactId(id))
     if (contact == null) return res.sendErr(404)
-    view.add(contact).writeOn(res)
+
+    MustachePage(template).print(contact).writeOn(res)
   }
 
   override Void onPost()
@@ -31,22 +27,21 @@ const class EditContactMod : WebMod, RepoClient
     id := contact_id(req)
     if (id == null) return res.sendErr(404)
 
-    // Add id to form
-    form    := req.form.dup["id"] = id.toStr
-    errors  := HtmlContactForm(form).validate
-    contact := DefContact.fromForm(form)
+    data    := req.form.dup["id"] = id.toStr // Add id to form
+    form    := HtmlForm.contact.withData(data)
+    contact := DefContact.fromMap(data)
 
-    if (errors.isEmpty)
+    if (form.hasErrors)
     {
-      repo.update(contact)
-      res.redirect(`/contacts`)
+      MustachePage(template)
+        .print(contact)
+        .print(form)
+        .writeOn(res)
     }
     else
     {
-      view
-        .add(contact)
-        .add(errors)
-        .writeOn(res)
+      repo.update(contact)
+      res.redirect(`/contacts`)
     }
   }
 }

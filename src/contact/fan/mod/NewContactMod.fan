@@ -4,34 +4,29 @@ using mustache
 
 const class NewContactMod : WebMod, RepoClient
 {
-  const static Log log := NewContactMod#.pod.log
-
-  HtmlPage view()
-  {
-    MustachePage(`new.mustache`)
-  }
+  const static Uri template := `new.mustache`
 
   override Void onGet()
   {
-    view.writeOn(res)
+    MustachePage(template).writeOn(res)
   }
 
   override Void onPost()
   {
-    errors  := HtmlContactForm(req.form).validate
-    contact := DefContact.fromForm(req.form)
+    form    := HtmlForm.contact.withData(req.form)
+    contact := DefContact.fromMap(req.form)
 
-    if (errors.isEmpty)
+    if (form.hasErrors)
     {
-      id := repo.add(contact)
-      res.redirect(`/contacts`)
+      MustachePage(template)
+        .print(form)
+        .print(contact)
+        .writeOn(res)
     }
     else
     {
-      view
-        .add(contact)
-        .add(errors)
-        .writeOn(res)
+      id := repo.add(contact)
+      res.redirect(`/contacts`)
     }
   }
 }

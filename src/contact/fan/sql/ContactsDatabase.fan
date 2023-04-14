@@ -2,8 +2,6 @@ using sql
 
 const class ContactDbRepo : ContactRepo, Service
 {
-  const static Log log := ContactDbRepo#.pod.log
-
   const Database database
   const Sqls sqls
 
@@ -16,46 +14,48 @@ const class ContactDbRepo : ContactRepo, Service
 
   override ContactId add(Contact contact)
   {
-    sql := sqls.sql(`insert-contact.sql`).add(contact)
-    ids := sql.insert(database.connection)
+    ids := sqls.sql(`insert-contact.sql`)
+             .print(contact)
+             .insert(database.connection)
     return ContactId(ids.first)
   }
 
   override Int update(Contact contact)
   {
-    sql := sqls.sql(`contact-update.sql`).add(contact)
+    sql := sqls.sql(`contact-update.sql`).print(contact)
     return sql.update(database.connection)
   }
 
   override Contact? findContactById(ContactId id)
   {
-    sql  := sqls.sql(`contact-by-id.sql`).add(id)
-    data := sql.query(database.connection)
-    return DbContacts(data).first
+    sqls.sql(`contact-by-id.sql`)
+      .print(id)
+      .query(database.connection)
+      .map { SqlContact(it) }
+      .first
   }
 
   override Void delete(ContactId id)
   {
     sql := sqls.sql(`contact-delete.sql`)
-      .add(id)
+      .print(id)
       .execute(database.connection)
   }
 
   override Contacts findContacts(Str query)
   {
-    if (log.isDebug)
-      log.debug("sql:contact-by-query $query")
-
     data := sqls.sql(`contacts-by-query.sql`)
-      .print("q", query)
+      .printAttr("q", query)
       .query(database.connection)
-    return DbContacts(data)
+      .map { SqlContact(it) }
+    return DefContacts(data)
   }
 
   override Contacts all()
   {
-     sql  := sqls.sql(`all-contacts.sql`)
-     data := sql.query(database.connection)
-     return DbContacts(data)
+     data := sqls.sql(`all-contacts.sql`)
+       .query(database.connection)
+       .map { SqlContact(it) }
+     return DefContacts(data)
   }
 }

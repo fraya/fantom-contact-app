@@ -29,7 +29,15 @@ const class DefDatabase : Database
 
 const class Sqlite : DefDatabase
 {
-  new make(File file)
-  : super.make("jdbc:sqlite:${file}")
+  new make(Str name)
+  : super.make("jdbc:sqlite:${name}")
+  {}
+
+  new file(File file)
+  : this.make(file.toStr)
+  {}
+
+  new memory()
+  : this.make(":memory:")
   {}
 }

@@ -17,6 +17,7 @@ const class ContactsMod : WebMod, RepoClient
       repo.findContacts("%" + query + "%") : repo.all
 
     MustachePage(`contacts-detail.mustache`)
+      .printAttr("query", query)
       .print(recs)
       .writeOn(res)
   }

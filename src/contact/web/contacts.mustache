@@ -13,7 +13,7 @@
 <div id="main">
   <form role="search">
       <label for="search">Search Term</label>
-      <input id="search" name="q" type="search"
+      <input id="search" name="q" type="search" value='{{ query }}'
              placeholder="Search contacts"
              aria-label="Search contacts by firstname, lastname, phone or email"/>
       <button hx-post="/contacts" hx-target="#main">

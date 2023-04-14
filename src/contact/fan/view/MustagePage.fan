@@ -1,26 +1,20 @@
 using mustache
 using web
 
-class MustachePage : HtmlPage
+const class MustachePage : HtmlPage
 {
-  Uri mustache
-  Str:Obj data := [:]
+  const Uri mustache
+  const Str:Obj data
 
-  new make(Uri mustache)
+  new make(Uri mustache, Str:Obj data := [:])
   {
     this.mustache = mustache
+    this.data = data
   }
 
-  override This print(Str name, Obj value)
+  override This printAttr(Str name, Obj val)
   {
-    data[name] = value
-    return this
-  }
-
-  override Media printOn(Media media)
-  {
-    data.each |val,name| { media = media.print(name, val) }
-    return media
+    MustachePage(mustache, data.dup[name] = val)
   }
 
   override Void writeOn(WebRes res)

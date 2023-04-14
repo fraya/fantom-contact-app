@@ -38,7 +38,8 @@ class Build : build::BuildPod
       `fan/model/`,
       `fan/service/`,
       `fan/sql/`,
-      `fan/view/`
+      `fan/view/`,
+      `test/`
     ]
 
     resDirs  = [

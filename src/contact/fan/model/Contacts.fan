@@ -24,7 +24,7 @@ const class DefContacts : Contacts
   override Media printOn(Media media)
   {
     // Mustache represent lists as
-    // ["#contact", [["id":1,"firstname":"John"], [...]]
+    // ["contacts", [["id":1,"firstname":"John"], [...]]
     data := contacts.map { DefMedia().print(it).toParams }
     return media.printAttr("contacts", data)
   }
